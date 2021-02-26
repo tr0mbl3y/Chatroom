@@ -1,5 +1,4 @@
 const socket = io();
-
 const $messageForm = document.querySelector("#messageForm");
 const $messageFormInput = document.querySelector("input");
 const $messageFormButton = document.querySelector("button");
@@ -25,19 +24,14 @@ const autoscroll = () => {
   const newMessageMargin = parseInt(newMessageStyles.marginBottom);
   const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
 
-  //console.log(newMessageStyle)
-
   //visible height
   const visibleHeight = $messages.offsetHeight;
 
   //height of msg container
   const containerHeight = $messages.scrollHeight;
 
-  //how far have i scrolled ?
   const scrollOffset = $messages.scrollTop + visibleHeight;
 
-  //scroll logic
-  //want to ensure that i was at bottom when last msg was added
   if (containerHeight - newMessageHeight <= scrollOffset) {
     $messages.scrollTop = $messages.scrollHeight;
   }
@@ -82,12 +76,11 @@ $messageForm.addEventListener("submit", (e) => {
   $messageFormButton.setAttribute("disabled", "disabled");
 
   const message = e.target.elements.message.value;
-  //console.log(message)
+  
   socket.emit("sendMessage", message, (msg) => {
     $messageFormButton.removeAttribute("disabled");
     $messageFormInput.value = "";
     $messageFormInput.focus();
-    //console.log("the message was delivered",msg)
   });
 });
 
